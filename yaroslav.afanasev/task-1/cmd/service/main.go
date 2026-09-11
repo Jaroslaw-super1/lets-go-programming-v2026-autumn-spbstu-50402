@@ -3,7 +3,6 @@ package main
 import "fmt"
 
 func main() {
-
 	var a, b int
 	_, err := fmt.Scan(&a)
 	if err != nil {
@@ -11,16 +10,16 @@ func main() {
 		return
 	}
 
+	_, err = fmt.Scan(&b)
+	if err != nil {
+		fmt.Println("Invalid second operand")
+		return
+	}
+
 	var op string
 	_, err = fmt.Scan(&op)
 	if err != nil {
 		fmt.Println("Invalid operation")
-		return
-	}
-
-	_, err = fmt.Scan(&b)
-	if err != nil {
-		fmt.Println("Invalid second operand")
 		return
 	}
 
