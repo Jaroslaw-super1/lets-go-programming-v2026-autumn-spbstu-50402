@@ -12,8 +12,8 @@ func takeTempirature() bool {
 		return false
 	}
 
-	var min_t int = 15
-	var max_t int = 30
+	var minT int = 15
+	var maxT int = 30
 
 	for range peop {
 
@@ -35,13 +35,13 @@ func takeTempirature() bool {
 
 		switch op {
 		case ">=":
-			min_t = max(min_t, temp)
+			minT = max(minT, temp)
 		case "<=":
-			max_t = min(max_t, temp)
+			maxT = min(maxT, temp)
 		}
 
-		if min_t <= max_t {
-			fmt.Println(min_t)
+		if minT <= maxT {
+			fmt.Println(minT)
 		} else {
 			fmt.Println(-1)
 		}
