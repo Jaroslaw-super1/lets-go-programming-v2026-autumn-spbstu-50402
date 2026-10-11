@@ -12,7 +12,7 @@ func takeTempirature() bool {
 		return false
 	}
 
-	var minT, maxT int = 15, 30
+	minT, maxT := 15, 30
 
 	for range peop {
 		var operation string
