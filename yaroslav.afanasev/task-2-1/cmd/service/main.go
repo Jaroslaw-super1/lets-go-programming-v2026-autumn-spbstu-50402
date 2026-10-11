@@ -8,6 +8,7 @@ func takeTempirature() bool {
 	_, err := fmt.Scan(&peop)
 	if err != nil {
 		fmt.Println("Invalid num of people")
+
 		return false
 	}
 
@@ -20,6 +21,7 @@ func takeTempirature() bool {
 		_, err = fmt.Scan(&op)
 		if err != nil || op != "<=" && op != ">=" {
 			fmt.Println("Invalid operation")
+
 			return false
 		}
 
@@ -27,6 +29,7 @@ func takeTempirature() bool {
 		_, err = fmt.Scan(&temp)
 		if err != nil {
 			fmt.Println("Invalid temperature")
+
 			return false
 		}
 
@@ -43,6 +46,7 @@ func takeTempirature() bool {
 			fmt.Println(-1)
 		}
 	}
+
 	return true
 }
 
@@ -52,11 +56,13 @@ func main() {
 	_, err := fmt.Scan(&depart)
 	if err != nil {
 		fmt.Println("Invalid first operand")
+
 		return
 	}
 
 	for range depart {
 		if !takeTempirature() {
+
 			return
 		}
 	}
