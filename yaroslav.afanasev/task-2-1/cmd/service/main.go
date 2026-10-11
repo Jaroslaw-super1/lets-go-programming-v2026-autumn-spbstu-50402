@@ -15,11 +15,18 @@ func takeTempirature() bool {
 	var max int = 30
 
 	for range peop {
-		var op string
 
-		_, err := fmt.Scan(&op)
+		var op string
+		_, err = fmt.Scan(&op)
 		if err != nil {
 			fmt.Println("Invalid operation")
+			return false
+		}
+
+		var temp int
+		_, err = fmt.Scan(&temp)
+		if err != nil {
+			fmt.Println("Invalid temperature")
 			return false
 		}
 	}
