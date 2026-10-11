@@ -7,8 +7,21 @@ func takeTempirature() bool {
 
 	_, err := fmt.Scan(&peop)
 	if err != nil {
-		fmt.Println("Invalid first operand")
+		fmt.Println("Invalid num of people")
 		return false
+	}
+
+	var min int = 10
+	var max int = 30
+
+	for range peop {
+		var op string
+
+		_, err := fmt.Scan(&op)
+		if err != nil {
+			fmt.Println("Invalid operation")
+			return false
+		}
 	}
 
 	return true
