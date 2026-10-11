@@ -2,6 +2,11 @@ package main
 
 import "fmt"
 
+func takeTempirature() bool {
+	fmt.Println("sssss")
+	return true
+}
+
 func main() {
 	var depart int
 
@@ -11,4 +16,9 @@ func main() {
 		return
 	}
 
+	for range depart {
+		if !takeTempirature() {
+			return
+		}
+	}
 }
