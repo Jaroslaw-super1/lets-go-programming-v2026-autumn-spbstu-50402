@@ -11,14 +11,14 @@ func takeTempirature() bool {
 		return false
 	}
 
-	var min int = 10
-	var max int = 30
+	var min_t int = 15
+	var max_t int = 30
 
 	for range peop {
 
 		var op string
 		_, err = fmt.Scan(&op)
-		if err != nil {
+		if err != nil || op != "<=" && op != ">=" {
 			fmt.Println("Invalid operation")
 			return false
 		}
@@ -29,8 +29,20 @@ func takeTempirature() bool {
 			fmt.Println("Invalid temperature")
 			return false
 		}
-	}
 
+		switch op {
+		case ">=":
+			min_t = max(min_t, temp)
+		case "<=":
+			max_t = min(max_t, temp)
+		}
+
+		if min_t <= max_t {
+			fmt.Println(min_t)
+		} else {
+			fmt.Println(-1)
+		}
+	}
 	return true
 }
 
