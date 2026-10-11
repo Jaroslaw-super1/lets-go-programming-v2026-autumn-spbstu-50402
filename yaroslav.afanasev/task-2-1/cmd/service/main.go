@@ -3,7 +3,14 @@ package main
 import "fmt"
 
 func takeTempirature() bool {
-	fmt.Println("sssss")
+	var peop int
+
+	_, err := fmt.Scan(&peop)
+	if err != nil {
+		fmt.Println("Invalid first operand")
+		return false
+	}
+
 	return true
 }
 
