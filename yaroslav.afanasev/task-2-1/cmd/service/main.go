@@ -1,11 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 const (
 	initialMinTemperature = 15
 	initialMaxTemperature = 30
 )
+
+var ErrInvalidOperation = errors.New("invalid operation: expected >= or <=")
 
 type TemperatureRange struct {
 	min int
@@ -26,13 +31,13 @@ func (r *TemperatureRange) Apply(operation string, temperature int) error {
 	case "<=":
 		r.max = min(r.max, temperature)
 	default:
-		return fmt.Errorf("invalid operation %q: expected >= or <=", operation)
+		return fmt.Errorf("%w: %q", ErrInvalidOperation, operation)
 	}
 
 	return nil
 }
 
-func (r TemperatureRange) ComfortableMin() (int, bool) {
+func (r *TemperatureRange) ComfortableMin() (int, bool) {
 	if r.min <= r.max {
 		return r.min, true
 	}
@@ -66,7 +71,7 @@ func processDepartment() error {
 
 	temperatureRange := NewTemperatureRange()
 
-	for i := 0; i < people; i++ {
+	for range people {
 		operation, err := readOperation()
 		if err != nil {
 			return err
@@ -99,7 +104,7 @@ func main() {
 		return
 	}
 
-	for i := 0; i < departments; i++ {
+	for range departments {
 		if err := processDepartment(); err != nil {
 			fmt.Println(err)
 
