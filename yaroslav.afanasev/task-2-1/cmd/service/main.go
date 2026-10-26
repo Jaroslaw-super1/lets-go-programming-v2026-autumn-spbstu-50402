@@ -20,10 +20,10 @@ type TemperatureRange struct {
 	max int
 }
 
-func NewTemperatureRange(min, max int) TemperatureRange {
+func NewTemperatureRange(minTemperature, maxTemperature int) TemperatureRange {
 	return TemperatureRange{
-		min: min,
-		max: max,
+		min: minTemperature,
+		max: maxTemperature,
 	}
 }
 
@@ -51,7 +51,7 @@ func (r *TemperatureRange) ComfortableMin() (int, error) {
 func readInt() (int, error) {
 	var value int
 	if _, err := fmt.Scan(&value); err != nil {
-		return 0, err
+		return 0, fmt.Errorf("scan int: %w", err)
 	}
 
 	return value, nil
@@ -60,7 +60,7 @@ func readInt() (int, error) {
 func readOperation() (string, error) {
 	var operation string
 	if _, err := fmt.Scan(&operation); err != nil {
-		return "", err
+		return "", fmt.Errorf("scan operation: %w", err)
 	}
 
 	return operation, nil
