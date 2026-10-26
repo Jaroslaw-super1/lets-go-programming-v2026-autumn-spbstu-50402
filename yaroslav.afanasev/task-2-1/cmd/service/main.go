@@ -10,17 +10,20 @@ const (
 	initialMaxTemperature = 30
 )
 
-var ErrInvalidOperation = errors.New("invalid operation: expected >= or <=")
+var (
+	errInvalidOperation         = errors.New("invalid operation: expected >= or <=")
+	errNoComfortableTemperature = errors.New("no comfortable temperature")
+)
 
 type TemperatureRange struct {
 	min int
 	max int
 }
 
-func NewTemperatureRange() TemperatureRange {
+func NewTemperatureRange(min, max int) TemperatureRange {
 	return TemperatureRange{
-		min: initialMinTemperature,
-		max: initialMaxTemperature,
+		min: min,
+		max: max,
 	}
 }
 
@@ -31,24 +34,24 @@ func (r *TemperatureRange) Apply(operation string, temperature int) error {
 	case "<=":
 		r.max = min(r.max, temperature)
 	default:
-		return fmt.Errorf("%w: %q", ErrInvalidOperation, operation)
+		return fmt.Errorf("%w: %q", errInvalidOperation, operation)
 	}
 
 	return nil
 }
 
-func (r *TemperatureRange) ComfortableMin() (int, bool) {
+func (r *TemperatureRange) ComfortableMin() (int, error) {
 	if r.min <= r.max {
-		return r.min, true
+		return r.min, nil
 	}
 
-	return -1, false
+	return 0, errNoComfortableTemperature
 }
 
-func readInt(what string) (int, error) {
+func readInt() (int, error) {
 	var value int
 	if _, err := fmt.Scan(&value); err != nil {
-		return 0, fmt.Errorf("read %s: %w", what, err)
+		return 0, err
 	}
 
 	return value, nil
@@ -57,39 +60,40 @@ func readInt(what string) (int, error) {
 func readOperation() (string, error) {
 	var operation string
 	if _, err := fmt.Scan(&operation); err != nil {
-		return "", fmt.Errorf("read operation: %w", err)
+		return "", err
 	}
 
 	return operation, nil
 }
 
 func processDepartment() error {
-	people, err := readInt("number of people")
+	people, err := readInt()
 	if err != nil {
-		return err
+		return fmt.Errorf("read number of people: %w", err)
 	}
 
-	temperatureRange := NewTemperatureRange()
+	temperatureRange := NewTemperatureRange(initialMinTemperature, initialMaxTemperature)
 
 	for range people {
 		operation, err := readOperation()
 		if err != nil {
-			return err
+			return fmt.Errorf("read operation: %w", err)
 		}
 
-		temperature, err := readInt("temperature")
+		temperature, err := readInt()
 		if err != nil {
-			return err
+			return fmt.Errorf("read temperature: %w", err)
 		}
 
 		if err := temperatureRange.Apply(operation, temperature); err != nil {
 			return err
 		}
 
-		if minTemperature, ok := temperatureRange.ComfortableMin(); ok {
-			fmt.Println(minTemperature)
-		} else {
+		minTemperature, err := temperatureRange.ComfortableMin()
+		if err != nil {
 			fmt.Println(-1)
+		} else {
+			fmt.Println(minTemperature)
 		}
 	}
 
@@ -97,9 +101,9 @@ func processDepartment() error {
 }
 
 func main() {
-	departments, err := readInt("number of departments")
+	departments, err := readInt()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("read number of departments: %v\n", err)
 
 		return
 	}
